@@ -15,11 +15,8 @@ import {NavAppBar} from './components/Navbar/Navbar';
 
 export const App: FC = () => {
 
-        // const wallet = Wallet.local() // Or any other solana wallet
-// let providerUrl = 'https://www.sollet.io';
-// let wallet = new Wallet(providerUrl);
-        // console.log('trade',wallet);
-    // const { publicKey } = useWallet();
+    // Getting Error : Wallet.local not able to access.
+    const wallet = Wallet.local() // Or any other solana wallet
 
     async function trade() {
         // return;
@@ -27,15 +24,15 @@ export const App: FC = () => {
         console.log('tokenSwap',tokenSwap);
 
         const rin = new PublicKey('E5ndSkaB17Dm7CsD22dvcjfrYSDLCxFcMd6z8ddCk5wp')
-        const usdc = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v')
+        const wsol = new PublicKey('So11111111111111111111111111111111111111112')
 
-        const rinPrice = await tokenSwap.getPrice({ mintFrom: rin, mintTo: usdc })
-        const usdRinPrice = await tokenSwap.getPrice({ mintFrom: usdc, mintTo: rin })
+        const rinPrice = await tokenSwap.getPrice({ mintFrom: rin, mintTo: wsol })
+        const solRinPrice = await tokenSwap.getPrice({ mintFrom: wsol, mintTo: rin })
 
-        console.log(`RIN/USDC price: ${rinPrice}`, `USDC/RIN price: ${usdRinPrice}` )
+        console.log(`RIN/SOL price: ${rinPrice}`, `SOL/RIN price: ${solRinPrice}` )
 
         const transactionId = await tokenSwap.swap({
-            wallet: Keypair,
+            wallet: Wallet,
             // A least 1 of parameters minIncomeAmount/outcomeAmount is required
             minIncomeAmount: new BN(1_000_000_000), // 1 RIN
             // outcomeAmount: new BN(5_000_000) // 5 USDC
@@ -52,12 +49,18 @@ export const App: FC = () => {
             <Context>
                 <div className='navbar-position'>
                     <NavAppBar  />
-                <button type="button" onClick={() => trade()}>Swap</button>
                 </div>
     
             </Context>
             <div className="base-app-text">
-                <h1>Swap Sol-Rin </h1>
+                <div className="card-wrapper">
+                    <div className="card-fields">
+                        <input type="number" className="input-text" name="sol" placeholder="Enter Sol" />
+                        <input type="number" className="input-text" name="rin" placeholder="Enter Rin" />
+                    </div>
+                    <button type="button" className="swap-btn" onClick={() => trade()}>Swap</button>
+                </div>
+                
             </div>
         </div>
     );
