@@ -4,7 +4,7 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 import './App.css';
 
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-// import { Wallet } from '@project-serum/anchor';
+import { Wallet } from '@project-serum/anchor';
 import { PublicKey, Keypair } from '@solana/web3.js';
 import BN from 'bn.js';
 import { TokenSwap } from '@aldrin_exchange/sdk';
